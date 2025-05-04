@@ -1,15 +1,25 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-
-    public void SetPlayerName(string name)
+    
+    public static MenuManager Instance;
+    public TMP_InputField playerNameInput;
+    public void SetPlayerName()
     {
-        MainManager.Instance.playerName = name;
+
+        if (PlayerData.Instance != null)
+        {
+            PlayerData.Instance.playerName = playerNameInput.text;
+            Debug.Log(Application.persistentDataPath);
+            return;
+        }
+       
     }
 
     

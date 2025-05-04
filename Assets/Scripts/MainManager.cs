@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 
 public class MainManager : MonoBehaviour
 {
+    public int highScore;
+    
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
@@ -20,23 +22,54 @@ public class MainManager : MonoBehaviour
     private int m_Points;
     
     private bool m_GameOver = false;
-    public static MainManager Instance;
+
 
     public string playerName;
-    public void Awake()
+    
+    [System.Serializable]
+    class SaveData
     {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        public int highScore;
+        public string playerName;
     }
+    
 
     // Start is called before the first frame update
+    void SaveHighScore()
+    {
+        playerName = PlayerData.Instance.playerName;
+        SaveData data = new SaveData();
+        data.highScore = highScore;
+        data.playerName = playerName;
+        Debug.Log("Player name: " + data.playerName);
+        string json = JsonUtility.ToJson(data);
+        System.IO.File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+        
+        HighScoreText.text = $"High Score : {highScore} by {playerName}";
+    }
+    
+    void LoadHighScore()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+        if (System.IO.File.Exists(path))
+        {
+            string json = System.IO.File.ReadAllText(path);
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
+            highScore = data.highScore;
+            playerName = data.playerName;
+            HighScoreText.text = $"High Score : {highScore} by {playerName}";
+        }
+        else
+        {
+            highScore = 0;
+            playerName = "Player";
+            HighScoreText.text = $"High Score : {highScore} by {playerName}";
+        }
+    }
     void Start()
     {
+        playerName = PlayerData.Instance.playerName;
+        Debug.Log("Player name: " + playerName);
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -51,6 +84,8 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+        
+        LoadHighScore();
     }
 
     private void Update()
@@ -66,6 +101,11 @@ public class MainManager : MonoBehaviour
 
                 Ball.transform.SetParent(null);
                 Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
+            }
+            
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SceneManager.LoadScene(0);
             }
         }
         else if (m_GameOver)
@@ -87,5 +127,10 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        if (m_Points > highScore)
+        {
+            highScore = m_Points;
+            SaveHighScore();
+        }
     }
 }
