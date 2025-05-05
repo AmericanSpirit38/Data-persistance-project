@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8209fc0f-93c1-40e2-b065-836aee91b012" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Data-persistance-project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Data-persistance-project/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MenuManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MenuManager.cs" afterDir="false" />
-    </list>
+    <list default="true" id="8209fc0f-93c1-40e2-b065-836aee91b012" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -84,6 +81,7 @@
       <updated>1743416895605</updated>
       <workItem from="1743416895610" duration="3981000" />
       <workItem from="1746359932366" duration="1075000" />
+      <workItem from="1746361164290" duration="4967000" />
     </task>
     <servers />
   </component>
